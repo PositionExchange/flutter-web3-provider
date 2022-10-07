@@ -1,0 +1,29 @@
+name: web3_provider
+description: The bridge communicate between in-app webview and mobile-app by standard EIP-1193.
+version: 1.1.1
+homepage: https://github.com/PositionExchange/flutter-web3-provider
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  decimal: ^2.3.0
+  flutter_inappwebview: ^5.4.4+3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  uses-material-design: true
+  assets:
+    - packages/web3_provider/assets/posi.min.js
