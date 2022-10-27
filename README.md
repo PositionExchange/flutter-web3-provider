@@ -1,3 +1,5 @@
+# Plugin: https://pub.dev/packages/web3_provider
+
 ## web3_provider
 The project supported send and receive messages between Dapp and in-app webview “Only EIP-1193 standard supported”
 
