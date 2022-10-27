@@ -1,3 +1,6 @@
+## 1.1.2
+* update mechanism handle request via EIP1193
+
 ## 1.1.1
 * update version flutter_inappwebview
 
@@ -5,7 +8,7 @@
 * allow custom provider
 
 ## 1.0.3
-* connect to new wallet 
+* connect to new wallet
 
 ## 1.0.2
 
