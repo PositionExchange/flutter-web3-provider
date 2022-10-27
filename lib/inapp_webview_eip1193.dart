@@ -825,9 +825,6 @@ class InAppWebViewEIP1193 extends StatefulWidget {
 }
 
 class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
-  ///Constant message additional receive
-  final _alertTitle = "messagePayTube";
-
   /// Script provider will inject in web app
   String? jsProviderScript;
 
@@ -872,7 +869,9 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
            var config = $paramConfig;
             window.ethereum = new ${widget.customWalletName}.Provider(config);
             ${widget.customWalletName}.postMessage = (jsonString) => {
-               alert("$_alertTitle" + JSON.stringify(jsonString || "{}"))
+               if (window.flutter_inappwebview.callHandler) {
+                  window.flutter_inappwebview.callHandler('handleRequestEIP1193', JSON.stringify(jsonString));
+               }
             };
         })();
         """;
@@ -937,6 +936,12 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
             contextMenu: widget.contextMenu,
             onWebViewCreated: (controller) async {
               _webViewController = controller;
+              controller.addJavaScriptHandler(
+                handlerName: 'handleRequestEIP1193',
+                callback: (args) {
+                  _jsBridgeCallBack(args[0]);
+                },
+              );
               widget.onWebViewCreated?.call(controller);
             },
             onLoadStart: (controller, url) async {
@@ -962,24 +967,7 @@ class _InAppWebViewEIP1193State extends State<InAppWebViewEIP1193> {
             onLoadResourceCustomScheme: widget.onLoadResourceCustomScheme,
             onCreateWindow: widget.onCreateWindow,
             onCloseWindow: widget.onCloseWindow,
-            onJsAlert: widget.onJsAlert ??
-                (controller, request) {
-                  final message = request.message;
-                  bool handledByClient = false;
-                  if (message?.contains(_alertTitle) == true) {
-                    handledByClient = true;
-                    _jsBridgeCallBack(
-                      request.message!.replaceFirst(_alertTitle, ""),
-                    );
-                  }
-
-                  return Future.value(
-                    JsAlertResponse(
-                      message: message ?? "",
-                      handledByClient: handledByClient,
-                    ),
-                  );
-                },
+            onJsAlert: widget.onJsAlert,
             onJsConfirm: widget.onJsConfirm,
             onJsPrompt: widget.onJsPrompt,
             onReceivedHttpAuthRequest: widget.onReceivedHttpAuthRequest,

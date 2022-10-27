@@ -1,3 +1,6 @@
+## 1.1.3
+* fixed mechanism handle request via EIP1193
+
 ## 1.1.2
 * update mechanism handle request via EIP1193
 
